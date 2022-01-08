@@ -5,26 +5,19 @@ import csv
 import json
 from os.path import exists
 
-json_results = {
-    "time": [],
-    "download": [],
-    "upload": [],
-    "ping": []
-}
-
 def run_speedtest():
     test = speedtest.Speedtest()
     test.get_servers()
 
     print(f"\---[ {curr_time} ]---/")
+    
     download = round(test.download()*1E-6, 2)
-
     print(f"Download: \t {download}")
+
     upload = round(test.upload()*1E-6, 2)
-
     print(f"Upload: \t {upload}")
-    ping = test.results.ping
 
+    ping = test.results.ping
     print(f"Ping: \t {ping}")
 
     return download, upload, ping
@@ -56,8 +49,8 @@ def write_results(download, upload, ping):
 
         json_results[date_id]["times"].append(time.time())
         json_results[date_id]["download"].append(download)
-        json_results[date_id]["upload"].append(download)
-        json_results[date_id]["ping"].append(download)
+        json_results[date_id]["upload"].append(upload)
+        json_results[date_id]["ping"].append(ping)
 
         json_results[date_id]["avg_download"] = \
             round(sum(json_results[date_id]["download"])/len(json_results[date_id]["download"]), 2)
@@ -68,7 +61,9 @@ def write_results(download, upload, ping):
         json_results[date_id]["avg_ping"] = \
             round(sum(json_results[date_id]["ping"])/len(json_results[date_id]["ping"]), 2)
     else:
+        json_results["datesRecorded"].insert(0, date_id)
         json_results[date_id] = {
+            "date_str": datetime.datetime.now().strftime("%A, %B %d %Y"),
             "max_download": download,
             "min_download": download,
             "max_upload": upload,
