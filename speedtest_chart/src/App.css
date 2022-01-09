@@ -1,3 +1,21 @@
+.fas-button {
+  margin: 10px;
+  cursor: pointer;
+}
+
+.fas-button-disable {
+  color: gray;
+  cursor: not-allowed;
+}
+
+.card-div {
+  margin-bottom: 50px;
+}
+
+.card-width {
+  margin: 20px;
+}
+
 .chart_container {
   height: 400px;
 }

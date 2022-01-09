@@ -82,7 +82,10 @@ def write_results(download, upload, ping):
 
 while True:
     curr_time = datetime.datetime.now().strftime("%m/%d/%y %H:%M:%S")
-    download, upload, ping = run_speedtest()
-    write_results(download, upload, ping)
+    try:
+        download, upload, ping = run_speedtest()
+        write_results(download, upload, ping)
+    except Exception as e:
+        print("Oops!", e.__class__, "occurred.\n")
 
     time.sleep(300)
